@@ -232,6 +232,32 @@ public:
         cout << (minVal + maxVal) / 2.0 << endl;
     }
 
+    void Rank(int x) {
+        node *curNode = search(root, x);
+        if (curNode == nullptr) {
+            cout << 0 << endl;
+            return;
+        }
+
+        int depth_height_sum = Find(x);
+        function<int(node*)> GetSize = [&] (node* n) {
+            if (n == NULL) return 0;
+            return 1 + GetSize(n->left) + GetSize(n->right);
+        };
+
+        int rank = GetSize(curNode->left) + 1;
+        while (curNode->parent != nullptr) {
+            if (curNode == curNode->parent->left) {
+                curNode = curNode->parent;
+                continue;
+            }
+            rank += (GetSize(curNode->parent->left) + 1);
+            curNode = curNode->parent;
+        }
+
+        cout << depth_height_sum << " " << rank << endl;
+    }
+
     void Erase(int key) {
         node* delNode = search(root, key);
         if (delNode == nullptr) {

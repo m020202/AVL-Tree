@@ -30,10 +30,13 @@ int main() {
     // Check if tree is empty
     cout << "Is tree empty? " << tree.Empty() << endl;
 
+    tree.Rank(20);
+
     // Remove a node
-    cout << "Erase 20: ";
-    tree.Erase(20);
-    cout << "Size after removing 20: " << tree.Size() << endl;
+//    cout << "Erase 20: ";
+//    tree.Erase(20);
+//
+//    cout << "Size after removing 20: " << tree.Size() << endl;
 
     tree.PrintTree();
     return 0;
