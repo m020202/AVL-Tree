@@ -8,9 +8,12 @@ struct node {
     node* parent;
     node* left;
     node* right;
+    int height;
+
     node(int key) {
         this->key = key;
         parent = left = right = NULL;
+        height = 1;
     }
 };
 
@@ -31,11 +34,7 @@ public:
     }
 
     int GetHeight(node* n) {
-        if (n == NULL) return -1;
-        int leftHeight = GetHeight(n->left);
-        int rightHeight = GetHeight(n->right);
-
-        return 1 + max(leftHeight, rightHeight);
+        return n ? n->height : 0;
     }
 
     int Find(int key) {
@@ -60,13 +59,80 @@ public:
             return search(curNode->left, key);
     }
 
-    void insert(int key) {
-        if (search(root, key) != NULL) return;
+    void UpdateHeight(node* n) {
+        if (n) {
+            n->height = 1 + max(GetHeight(n->left), GetHeight(n->right));
+        }
+    }
 
-        node *newNode = new node(key); // 추가할 새로운 노드
+    int GetBalance(node* n) {
+        return n ? GetHeight(n->left) - GetHeight(n->right) : 0;
+    }
+
+    node* RotateRight(node* y) {
+        node* x = y->left;
+        node* T2 = x->right;
+
+        x->right = y;
+        y->left = T2;
+
+        if (T2) T2->parent = y;
+        x->parent = y->parent;
+        y->parent = x;
+
+        UpdateHeight(y);
+        UpdateHeight(x);
+    }
+
+    node* RotateLeft(node* x) {
+        node* y = x->right;
+        node* T2 = y->left;
+
+        y->left = x;
+        x->right = T2;
+
+        if (T2) T2->parent = x;
+        y->parent = x->parent;
+        x->parent = y;
+
+        UpdateHeight(x);
+        UpdateHeight(y);
+
+        return y;
+    }
+
+    node* balance(node* n) {
+        UpdateHeight(n);
+        int balance_factor = GetBalance(n);
+
+        // LL Case
+        if (balance_factor > 1 && GetBalance(n->left) >= 0)
+            return RotateRight(n);
+
+        // LR Case
+        if (balance_factor > 1 && GetBalance(n->left) < 0)
+            return RotateRight(n);
+
+        // RR Case
+        if (balance_factor < -1 && GetBalance(n->right) <= 0) {
+            return RotateLeft(n);
+        }
+
+        // RL Case
+        if (balance_factor < -1 && GetBalance(n->right) > 0) {
+            n->right = RotateRight(n->right);
+            return RotateLeft(n);
+        }
+
+        return n;
+    }
+
+    int insert(int x) {
+        node *newNode = new node(x); // 추가할 새로운 노드
+
         if (root == NULL) {
             root = newNode;
-            return;
+            return 0;
         }
 
         node* curNode = root;
@@ -74,7 +140,7 @@ public:
 
         while (curNode != NULL) {
             parNode = curNode;
-            if (curNode->key < key) {
+            if (curNode->key < x) {
                 curNode = curNode->right;
             }
             else {
@@ -83,12 +149,26 @@ public:
         }
 
         newNode->parent = parNode;
-        if (parNode->key < key) {
+        if (parNode->key < x) {
             parNode->right = newNode;
         }
         else {
             parNode->left = newNode;
         }
+
+        // 균형 유지
+        while (parNode != NULL) {
+            UpdateHeight(parNode);
+            parNode = balance(parNode);
+            parNode = parNode->parent;
+        }
+
+        // 루트 갱신
+        while (root->parent != NULL) {
+            root = root->parent;
+        }
+
+        return Find(x);
     }
 
     int Empty() {
@@ -101,7 +181,7 @@ public:
     }
 
     int Height() {
-        return GetHeight(root);
+        return root ? GetHeight(root) : -1;
     }
 
     void Ancestor(int x) {
