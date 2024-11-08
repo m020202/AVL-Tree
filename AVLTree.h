@@ -41,25 +41,25 @@ public:
 
 
     int Find(int key) {
-        node *findNode = search(root, key);
-        if (findNode == NULL) return 0;
+        node *find_node = Search(root, key);
+        if (find_node == NULL) return 0;
 
-        int depth = GetDepth(findNode);
-        int height = GetHeight(findNode);
+        int depth = GetDepth(find_node);
+        int height = GetHeight(find_node);
 
         return depth + height;
     }
 
-    node *search(node *curNode, int key) {
-        if (curNode == NULL) return NULL;
+    node *Search(node *cur_node, int key) {
+        if (cur_node == NULL) return NULL;
 
-        if (curNode ->key == key)
-            return curNode;
-        else if (curNode->key < key) {
-            return search(curNode->right, key);
+        if (cur_node ->key == key)
+            return cur_node;
+        else if (cur_node->key < key) {
+            return Search(cur_node->right, key);
         }
         else
-            return search(curNode->left, key);
+            return Search(cur_node->left, key);
     }
 
     void UpdateHeight(node* n) {
@@ -108,7 +108,7 @@ public:
     }
 
     // restructuring
-    node* balance(node* n) {
+    node* Balance(node* n) {
         UpdateHeight(n);
         int balance_factor = GetBalance(n);
 
@@ -136,39 +136,39 @@ public:
         return n;
     }
 
-    int insert(int x) {
-        node *newNode = new node(x); // 추가할 새로운 노드
+    int Insert(int x) {
+        node *new_node = new node(x); // 추가할 새로운 노드
 
         if (root == NULL) {
-            root = newNode;
+            root = new_node;
             return 0;
         }
 
-        node* curNode = root;
-        node* parNode = NULL;
+        node* cur_node = root;
+        node* par_node = NULL;
 
-        while (curNode != NULL) {
-            parNode = curNode;
-            if (curNode->key < x) {
-                curNode = curNode->right;
+        while (cur_node != NULL) {
+            par_node = cur_node;
+            if (cur_node->key < x) {
+                cur_node = cur_node->right;
             }
             else {
-                curNode = curNode->left;
+                cur_node = cur_node->left;
             }
         }
 
-        newNode->parent = parNode;
-        if (parNode->key < x) {
-            parNode->right = newNode;
+        new_node->parent = par_node;
+        if (par_node->key < x) {
+            par_node->right = new_node;
         }
         else {
-            parNode->left = newNode;
+            par_node->left = new_node;
         }
 
         // 균형 유지
-        node* tmp = newNode;
+        node* tmp = new_node;
         while (tmp != NULL) {
-            tmp = balance(tmp);
+            tmp = Balance(tmp);
             tmp = tmp->parent;
         }
 
@@ -202,39 +202,39 @@ public:
         int depth_height_sum = Find(x);
 
         int key_sum = 0;
-        node *curNode = search(root, x)->parent;
-        while (curNode != NULL) {
-            key_sum += curNode->key;
-            curNode = curNode->parent;
+        node *cur_node = Search(root, x)->parent;
+        while (cur_node != NULL) {
+            key_sum += cur_node->key;
+            cur_node = cur_node->parent;
         }
 
         cout << depth_height_sum << " " << key_sum << endl;
     }
 
     void Average(int x) {
-        node *curNode = search(root, x);
+        node *cur_node = Search(root, x);
 
-        int minVal = curNode->key;
-        int maxVal = curNode->key;
+        int min_val = cur_node->key;
+        int max_val = cur_node->key;
 
         // 내부 함수: DFS 로 부분 트리 순회 구현
         function<void(node*)> dfs = [&] (node* cur) {
             if (cur == NULL) return;
 
-            minVal = min(minVal, cur->key);
-            maxVal = max(maxVal, cur->key);
+            min_val = min(min_val, cur->key);
+            max_val = max(max_val, cur->key);
 
             dfs(cur->left);
             dfs(cur->right);
         };
         // 현재 노드부터 DFS 시작
-        dfs(curNode);
-        cout << (minVal + maxVal) / 2.0 << endl;
+        dfs(cur_node);
+        cout << (min_val + max_val) / 2.0 << endl;
     }
 
     void Rank(int x) {
-        node *curNode = search(root, x);
-        if (curNode == nullptr) {
+        node *cur_node = Search(root, x);
+        if (cur_node == nullptr) {
             cout << 0 << endl;
             return;
         }
@@ -245,74 +245,79 @@ public:
             return 1 + GetSize(n->left) + GetSize(n->right);
         };
 
-        int rank = GetSize(curNode->left) + 1;
-        while (curNode->parent != nullptr) {
-            if (curNode == curNode->parent->left) {
-                curNode = curNode->parent;
+        int rank = GetSize(cur_node->left) + 1;
+        while (cur_node->parent != nullptr) {
+            if (cur_node == cur_node->parent->left) {
+                cur_node = cur_node->parent;
                 continue;
             }
-            rank += (GetSize(curNode->parent->left) + 1);
-            curNode = curNode->parent;
+            rank += (GetSize(cur_node->parent->left) + 1);
+            cur_node = cur_node->parent;
         }
 
         cout << depth_height_sum << " " << rank << endl;
     }
 
     void Erase(int key) {
-        node* delNode = search(root, key);
-        if (delNode == nullptr) {
+        node* del_node = Search(root, key);
+        if (del_node == nullptr) {
             cout << 0 << endl;
             return;
         }
 
         cout << Find(key) << endl;
 
-        node* parNode = delNode->parent;
-        node* childNode;
+        node* par_node = del_node->parent;
+        node* child_node;
 
-        if (delNode->left == nullptr && delNode->right == nullptr) {
-            childNode = nullptr;
+        if (del_node->left == nullptr && del_node->right == nullptr) {
+            child_node = nullptr;
         }
-        else if (delNode->left == nullptr && delNode->right != nullptr) {
-            childNode = delNode->right;
+        else if (del_node->left == nullptr && del_node->right != nullptr) {
+            child_node = del_node->right;
         }
-        else if (delNode->left != nullptr && delNode->right == nullptr) {
-            childNode = delNode->left;
+        else if (del_node->left != nullptr && del_node->right == nullptr) {
+            child_node = del_node->left;
         }
         else {
-            childNode = delNode->right;
-            while (childNode->left != nullptr) {
-                childNode = childNode->left;
+            child_node = del_node->right;
+            while (child_node->left != nullptr) {
+                child_node = child_node->left;
             }
-            delNode->key = childNode->key;
-            delNode = childNode;
-            parNode = delNode->parent;
-            childNode = delNode->right;
+            del_node->key = child_node->key;
+            del_node = child_node;
+            par_node = del_node->parent;
+            child_node = del_node->right;
         }
 
-        if (parNode == nullptr) {
-            root = childNode;
+        if (par_node == nullptr) {
+            root = child_node;
             if (root != nullptr) root->parent = nullptr;
-        } else if (delNode == parNode->left) {
-            parNode->left = childNode;
-            if (childNode != nullptr) childNode->parent = parNode;
+        } else if (del_node == par_node->left) {
+            par_node->left = child_node;
+            if (child_node != nullptr) child_node->parent = par_node;
         } else {
-            parNode->right = childNode;
-            if (childNode != nullptr) childNode->parent = parNode;
+            par_node->right = child_node;
+            if (child_node != nullptr) child_node->parent = par_node;
         }
 
-        delete delNode;
+        delete del_node;
 
         // 삭제 후 균형 재조정
-        node* cur = parNode;
+        node* cur = par_node;
         while (cur != nullptr) {
             UpdateHeight(cur);
-            cur = balance(cur);
+            cur = Balance(cur);
             cur = cur->parent;
+        }
+
+        // 루트 갱신
+        while (root->parent != NULL) {
+            root = root->parent;
         }
     }
 
-    // 트리를 트리 형태로 출력 하는 함수 (임시로 구현 해놓음)
+    // 값들을 트리 형태로 출력 하는 함수 (임시로 구현 해놓음)
     void PrintTree() {
         if (root == NULL) {
             std::cout << "Tree is empty." << std::endl;
