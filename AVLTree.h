@@ -1,6 +1,8 @@
 #include <iostream>
 #include <memory>
 #include <cmath>
+#include <queue>
+#include <iomanip>
 using namespace std;
 
 struct node {
@@ -37,6 +39,7 @@ public:
         return n ? n->height : 0;
     }
 
+
     int Find(int key) {
         node *findNode = search(root, key);
         if (findNode == NULL) return 0;
@@ -65,6 +68,7 @@ public:
         }
     }
 
+    // 왼쪽 자식과 오른쪽 자식 height 차이 확인 (height balance property 만족하는지)
     int GetBalance(node* n) {
         return n ? GetHeight(n->left) - GetHeight(n->right) : 0;
     }
@@ -82,6 +86,8 @@ public:
 
         UpdateHeight(y);
         UpdateHeight(x);
+
+        return x;
     }
 
     node* RotateLeft(node* x) {
@@ -101,6 +107,7 @@ public:
         return y;
     }
 
+    // restructuring
     node* balance(node* n) {
         UpdateHeight(n);
         int balance_factor = GetBalance(n);
@@ -110,8 +117,10 @@ public:
             return RotateRight(n);
 
         // LR Case
-        if (balance_factor > 1 && GetBalance(n->left) < 0)
+        if (balance_factor > 1 && GetBalance(n->left) < 0) {
+            n->left = RotateLeft(n->left);
             return RotateRight(n);
+        }
 
         // RR Case
         if (balance_factor < -1 && GetBalance(n->right) <= 0) {
@@ -157,10 +166,10 @@ public:
         }
 
         // 균형 유지
-        while (parNode != NULL) {
-            UpdateHeight(parNode);
-            parNode = balance(parNode);
-            parNode = parNode->parent;
+        node* tmp = newNode;
+        while (tmp != NULL) {
+            tmp = balance(tmp);
+            tmp = tmp->parent;
         }
 
         // 루트 갱신
@@ -172,16 +181,21 @@ public:
     }
 
     int Empty() {
-        return root ? 1 : 0;
+        return root ? 0 : 1;
     }
 
-    int Size(node* n) {
-        if (n == NULL) return 0;
-        return 1 + Size(n->left) + Size(n->right);
+    int Size() {
+        // 재귀로 사이즈 구하는 내부 함수 구현
+        function<int(node*)> GetSize = [&] (node* n) {
+            if (n == NULL) return 0;
+            return 1 + GetSize(n->left) + GetSize(n->right);
+        };
+
+        return GetSize(root);
     }
 
     int Height() {
-        return root ? GetHeight(root) : -1;
+        return root ? root->height : -1;
     }
 
     void Ancestor(int x) {
@@ -215,30 +229,33 @@ public:
         };
         // 현재 노드부터 DFS 시작
         dfs(curNode);
-
         cout << (minVal + maxVal) / 2.0 << endl;
     }
 
+    void Erase(int key) {
+        node* delNode = search(root, key);
+        if (delNode == nullptr) {
+            cout << 0 << endl;
+            return;
+        }
 
-    void remove(int key) {
-        node *delNode = search(root, key);
-        if (delNode == NULL) return;
+        cout << Find(key) << endl;
 
         node* parNode = delNode->parent;
         node* childNode;
 
-        if (delNode->left == NULL && delNode->right == NULL) {
-            childNode = NULL;
+        if (delNode->left == nullptr && delNode->right == nullptr) {
+            childNode = nullptr;
         }
-        else if (delNode->left == NULL && delNode->right != NULL) {
+        else if (delNode->left == nullptr && delNode->right != nullptr) {
             childNode = delNode->right;
         }
-        else if (delNode->left != NULL && delNode->right == NULL) {
+        else if (delNode->left != nullptr && delNode->right == nullptr) {
             childNode = delNode->left;
         }
         else {
             childNode = delNode->right;
-            while (childNode->left != NULL) {
+            while (childNode->left != nullptr) {
                 childNode = childNode->left;
             }
             delNode->key = childNode->key;
@@ -247,198 +264,60 @@ public:
             childNode = delNode->right;
         }
 
-        if (parNode == NULL) {
+        if (parNode == nullptr) {
             root = childNode;
-            root->parent = NULL;
+            if (root != nullptr) root->parent = nullptr;
         } else if (delNode == parNode->left) {
             parNode->left = childNode;
-            if (childNode != NULL) childNode->parent = parNode;
+            if (childNode != nullptr) childNode->parent = parNode;
         } else {
             parNode->right = childNode;
-            if (childNode != NULL) childNode->parent = parNode;
+            if (childNode != nullptr) childNode->parent = parNode;
         }
 
         delete delNode;
+
+        // 삭제 후 균형 재조정
+        node* cur = parNode;
+        while (cur != nullptr) {
+            UpdateHeight(cur);
+            cur = balance(cur);
+            cur = cur->parent;
+        }
+    }
+
+    // 트리를 트리 형태로 출력 하는 함수 (임시로 구현 해놓음)
+    void PrintTree() {
+        if (root == NULL) {
+            std::cout << "Tree is empty." << std::endl;
+            return;
+        }
+
+        // printTreeHelper를 PrintTree의 내부 함수로 구현
+        function<void(node*, int)>printTreeHelper = [&] (node* n, int space) {
+            if (n == NULL) return;
+
+            // 오른쪽 자식부터 출력 (역순으로 출력하므로 오른쪽부터 출력)
+            space += 10;  // 각 레벨을 띄울 만큼 공백 증가
+
+            // 오른쪽 자식 출력
+            printTreeHelper(n->right, space);
+
+            // 현재 노드 출력 (높이와 공백에 맞게 출력)
+            std::cout << std::endl;
+            for (int i = 10; i < space; i++) {
+                std::cout << " ";
+            }
+            std::cout << n->key << std::endl;
+
+            // 왼쪽 자식 출력
+            printTreeHelper(n->left, space);
+        };
+
+        // 루트 노드부터 시작
+        printTreeHelper(root, 0);
     }
 
 private:
     node* root;
-
-
 };
-
-//class AVLTree {
-//public:
-//    AVLTree() : root_(nullptr) {}
-//
-//    void Insert(int key) {
-//        root_ = insert(move(root_), key);
-//    }
-//
-//    bool Find(int key, int& depth, int& height_sum) {
-//        return find(root_.get(), key, depth, height_sum);
-//    }
-//
-//    bool IsEmpty() {
-//        return is_empty();
-//    }
-//
-//    int get_size() {
-//        return size(root_.get());
-//    }
-//
-//    int get_height() {
-//        return is_empty() ? -1 : get_tree_height();
-//    }
-//
-//    int get_ancestor(int key) {
-//        int ancestor_sum = 0;
-//        int depth = ancestor(root_.get(), key, ancestor_sum);
-//        return depth >= 0 ? ancestor_sum : -1;
-//    }
-//
-//    double get_average(int key) {
-//        int min, max;
-//        min_max(root_.get(), min, max);
-//        return (min + max) / 2.0;
-//    }
-//
-//private:
-//    struct Node {
-//        int key_;
-//        int height_;
-//        int size_;
-//        unique_ptr<Node> left_, right_;
-//
-//        Node(int key) : key_(key), height_(1), size_(1), left_(nullptr), right_(nullptr) {}
-//    };
-//
-//    unique_ptr<Node> root_;
-//
-//    int height(Node* node) {
-//        return node ? node -> height_ : 0;
-//    }
-//
-//    int size(Node* node) {
-//        return node ? node->size_ : 0;
-//    }
-//
-//    void UpdateNode(Node* node) {
-//        if (node) {
-//            node->height_ = 1 + max(height(node->left_.get()), height(node->right_.get()));
-//            node->size_ = 1 + size(node->left_.get()) + size(node->right_.get());
-//        }
-//    }
-//
-//    unique_ptr<Node> RotateRight(unique_ptr<Node> y) {
-//        auto x = move(y->left_);
-//        y->left_ = move(x->right_);
-//        x->right_ = move(y);
-//        UpdateNode(x->right_.get());
-//        UpdateNode(x.get());
-//        return x;
-//    }
-//
-//    unique_ptr<Node> RotateLeft(unique_ptr<Node> x) {
-//        auto y = move(x->right_);
-//        x->right_ = move(y->left_);
-//        y->left_ = move(x);
-//        UpdateNode(y->left_.get());
-//        UpdateNode(y.get());
-//        return y;
-//    }
-//
-//    int balance(Node* node) {
-//        return node ? height(node->left_.get()) - height(node->right_.get()) : 0;
-//    }
-//
-//    unique_ptr<Node> balancing(unique_ptr<Node> node) {
-//        if (!node) return nullptr;
-//
-//        UpdateNode(node.get());
-//        int tmp_balance = balance(node.get());
-//
-//        if (tmp_balance > 1) {
-//            if (balance(node->left_.get()) < 0)
-//                node->left_ = RotateLeft(move(node->left_));
-//            return RotateRight(move(node));
-//        }
-//
-//        if (tmp_balance < -1) {
-//            if (balance(node->right_.get()) > 0)
-//                node->right_ = RotateRight(move(node->right_));
-//            return RotateLeft(move(node));
-//        }
-//
-//        return node;
-//    }
-//
-//    unique_ptr<Node> insert(unique_ptr<Node> node, int key) {
-//        if (!node) return make_unique<Node>(key);
-//
-//        if (key < node->key_)
-//            node->left_ = insert(move(node->left_), key);
-//        else if (key > node->key_)
-//            node->right_ = insert(move(node->right_), key);
-//        else
-//            return node;
-//
-//        return balancing(move(node));
-//    }
-//
-//    bool find(Node* node, int key, int& depth, int& height_sum) {
-//        depth = 0;
-//        height_sum = 0;
-//        Node* current = node;
-//        while (current) {
-//            if (key == current->key_) {
-//                height_sum = height(current) + depth;
-//                return true;
-//            }
-//            depth++;
-//            if (key < current->key_)
-//                current = current->left_.get();
-//            else
-//                current = current->right_.get();
-//        }
-//        return false;
-//    }
-//
-//    bool is_empty() const {
-//        return root_ == nullptr;
-//    }
-//
-//    // Calculate tree height
-//    int get_tree_height() {
-//        return height(root_.get());
-//    }
-//
-//    int ancestor(Node* node, int key, int& ancestor_sum, int depth = 0) {
-//        if (!node) return -1;
-//
-//        if (node->key_ == key) {
-//            ancestor_sum += node->key_;
-//            return depth;
-//        }
-//        else if (key < node->key_) {
-//            ancestor_sum += node->key_;
-//            return ancestor(node->left_.get(), key, ancestor_sum, depth + 1);
-//        }
-//        else {
-//            ancestor_sum += node->key_;
-//            return ancestor(node->right_.get(), key, ancestor_sum, depth + 1);
-//        }
-//    }
-//
-//    void min_max(Node* node, int& min, int& max) {
-//        if (!node) return;
-//        Node* tmp = node;
-//        while (tmp -> left_)
-//            tmp = tmp->left_.get();
-//        min = tmp->key_;
-//        tmp = node;
-//        while (tmp -> right_)
-//            tmp = tmp->right_.get();
-//        max = tmp->key_;
-//    }
-//};
