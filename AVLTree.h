@@ -11,7 +11,6 @@ struct node {
     node* left;
     node* right;
     int height;
-
     node(int key) {
         this->key = key;
         parent = left = right = NULL;
@@ -138,7 +137,7 @@ public:
 
     int Insert(int x) {
         node *new_node = new node(x); // 추가할 새로운 노드
-
+        size++;
         if (root == NULL) {
             root = new_node;
             return 0;
@@ -185,17 +184,12 @@ public:
     }
 
     int Size() {
-        // 재귀로 사이즈 구하는 내부 함수 구현
-        function<int(node*)> GetSize = [&] (node* n) {
-            if (n == NULL) return 0;
-            return 1 + GetSize(n->left) + GetSize(n->right);
-        };
-
-        return GetSize(root);
+        return size;
     }
 
     int Height() {
-        return root ? root->height : -1;
+        // Balancing 시 편의상 leaf의 height을 1로 설정했기 때문에 -1 해주기
+        return root ? root->height-1 : -1;
     }
 
     void Ancestor(int x) {
@@ -264,7 +258,7 @@ public:
             cout << 0 << endl;
             return;
         }
-
+        size--;
         cout << Find(key) << endl;
 
         node* par_node = del_node->parent;
@@ -351,4 +345,5 @@ public:
 
 private:
     node* root;
+    int size;
 };
