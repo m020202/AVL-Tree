@@ -11,10 +11,11 @@ struct node {
     node* left;
     node* right;
     int height;
+    int size; // 내가 루트인 서브 트리 크기
     node(int key) {
         this->key = key;
         parent = left = right = NULL;
-        height = 1;
+        height = size = 1;
     }
 };
 
@@ -34,8 +35,16 @@ public:
         return depth;
     }
 
-    int GetHeight(node* n) {
+    int GetHeightByNode(node* n) {
         return n ? n->height : 0;
+    }
+
+    int GetSubTreeSize(node* n) {
+        return n ? n->size : 0;
+    }
+
+    void UpdateSubTreeSize(node* n) {
+        n->size = 1 + GetSubTreeSize(n->left) + GetSubTreeSize(n->right);
     }
 
 
@@ -44,7 +53,7 @@ public:
         if (find_node == NULL) return 0;
 
         int depth = GetDepth(find_node);
-        int height = GetHeight(find_node);
+        int height = GetHeightByNode(find_node) - 1;
 
         return depth + height;
     }
@@ -63,13 +72,13 @@ public:
 
     void UpdateHeight(node* n) {
         if (n) {
-            n->height = 1 + max(GetHeight(n->left), GetHeight(n->right));
+            n->height = 1 + max(GetHeightByNode(n->left), GetHeightByNode(n->right));
         }
     }
 
     // 왼쪽 자식과 오른쪽 자식 height 차이 확인 (height balance property 만족하는지)
     int GetBalance(node* n) {
-        return n ? GetHeight(n->left) - GetHeight(n->right) : 0;
+        return n ? GetHeightByNode(n->left) - GetHeightByNode(n->right) : 0;
     }
 
     node* RotateRight(node* y) {
@@ -85,6 +94,8 @@ public:
 
         UpdateHeight(y);
         UpdateHeight(x);
+        UpdateSubTreeSize(y);
+        UpdateSubTreeSize(x);
 
         return x;
     }
@@ -102,6 +113,8 @@ public:
 
         UpdateHeight(x);
         UpdateHeight(y);
+        UpdateSubTreeSize(x);
+        UpdateSubTreeSize(y);
 
         return y;
     }
@@ -109,6 +122,7 @@ public:
     // restructuring
     node* Balance(node* n) {
         UpdateHeight(n);
+        UpdateSubTreeSize(n);
         int balance_factor = GetBalance(n);
 
         // LL Case
@@ -188,8 +202,7 @@ public:
     }
 
     int GetHeight() {
-        // Balancing 시 편의상 leaf의 height을 1로 설정했기 때문에 -1 해주기
-        return root ? root->height-1 : -1;
+        return root ? root->height - 1 : -1;
     }
 
     void GetAncestor(int x) {
@@ -207,22 +220,20 @@ public:
 
     void GetAverage(int x) {
         node *cur_node = Search(root, x);
+        // 최솟값 구하기
+        node* tmp = cur_node;
+        while (tmp->left != NULL) {
+            tmp = tmp -> left;
+        }
+        int min_val = tmp->key;
 
-        int min_val = cur_node->key;
-        int max_val = cur_node->key;
+        // 최댓값 구하기
+        tmp = cur_node;
+        while (tmp ->right != NULL) {
+            tmp = tmp->right;
+        }
+        int max_val = tmp->key;
 
-        // 내부 함수: DFS 로 부분 트리 순회 구현
-        function<void(node*)> dfs = [&] (node* cur) {
-            if (cur == NULL) return;
-
-            min_val = min(min_val, cur->key);
-            max_val = max(max_val, cur->key);
-
-            dfs(cur->left);
-            dfs(cur->right);
-        };
-        // 현재 노드부터 DFS 시작
-        dfs(cur_node);
         cout << (min_val + max_val) / 2.0 << endl;
     }
 
@@ -234,18 +245,14 @@ public:
         }
 
         int depth_height_sum = Finding(x);
-        function<int(node*)> GetSize = [&] (node* n) {
-            if (n == NULL) return 0;
-            return 1 + GetSize(n->left) + GetSize(n->right);
-        };
 
-        int rank = GetSize(cur_node->left) + 1;
+        int rank = GetSubTreeSize(cur_node->left) + 1;
         while (cur_node->parent != nullptr) {
             if (cur_node == cur_node->parent->left) {
                 cur_node = cur_node->parent;
                 continue;
             }
-            rank += (GetSize(cur_node->parent->left) + 1);
+            rank += (GetSubTreeSize(cur_node->parent->left) + 1);
             cur_node = cur_node->parent;
         }
 
@@ -343,7 +350,12 @@ public:
         printTreeHelper(root, 0);
     }
 
+    int tmp(int key) {
+        node *n = Search(root, key);
+        return GetSubTreeSize(n);
+    }
+
 private:
     node* root;
-    int size;
+    int size = 0;
 };

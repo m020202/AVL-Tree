@@ -38,8 +38,8 @@ int main() {
     cout << "Is tree empty? " << tree.IsEmpty() << endl;
 
     // Rank
-    cout << "Rank(20): ";
-    tree.GetRank(20);
+    cout << "Rank(30): ";
+    tree.GetRank(30);
 
     // Remove a node
     cout << "Erase 20: ";
