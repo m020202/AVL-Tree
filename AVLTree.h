@@ -39,7 +39,7 @@ public:
     }
 
 
-    int Find(int key) {
+    int Finding(int key) {
         node *find_node = Search(root, key);
         if (find_node == NULL) return 0;
 
@@ -135,7 +135,7 @@ public:
         return n;
     }
 
-    int Insert(int x) {
+    int Inserting(int x) {
         node *new_node = new node(x); // 추가할 새로운 노드
         size++;
         if (root == NULL) {
@@ -176,24 +176,24 @@ public:
             root = root->parent;
         }
 
-        return Find(x);
+        return Finding(x);
     }
 
-    int Empty() {
+    int IsEmpty() {
         return root ? 0 : 1;
     }
 
-    int Size() {
+    int GetSize() {
         return size;
     }
 
-    int Height() {
+    int GetHeight() {
         // Balancing 시 편의상 leaf의 height을 1로 설정했기 때문에 -1 해주기
         return root ? root->height-1 : -1;
     }
 
-    void Ancestor(int x) {
-        int depth_height_sum = Find(x);
+    void GetAncestor(int x) {
+        int depth_height_sum = Finding(x);
 
         int key_sum = 0;
         node *cur_node = Search(root, x)->parent;
@@ -205,7 +205,7 @@ public:
         cout << depth_height_sum << " " << key_sum << endl;
     }
 
-    void Average(int x) {
+    void GetAverage(int x) {
         node *cur_node = Search(root, x);
 
         int min_val = cur_node->key;
@@ -226,14 +226,14 @@ public:
         cout << (min_val + max_val) / 2.0 << endl;
     }
 
-    void Rank(int x) {
+    void GetRank(int x) {
         node *cur_node = Search(root, x);
         if (cur_node == nullptr) {
             cout << 0 << endl;
             return;
         }
 
-        int depth_height_sum = Find(x);
+        int depth_height_sum = Finding(x);
         function<int(node*)> GetSize = [&] (node* n) {
             if (n == NULL) return 0;
             return 1 + GetSize(n->left) + GetSize(n->right);
@@ -252,14 +252,14 @@ public:
         cout << depth_height_sum << " " << rank << endl;
     }
 
-    void Erase(int key) {
+    void Erasing(int key) {
         node* del_node = Search(root, key);
         if (del_node == nullptr) {
             cout << 0 << endl;
             return;
         }
         size--;
-        cout << Find(key) << endl;
+        cout << Finding(key) << endl;
 
         node* par_node = del_node->parent;
         node* child_node;
