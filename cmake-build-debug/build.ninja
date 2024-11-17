@@ -52,8 +52,23 @@ build cmake_object_order_depends_target_oss: phony || CMakeFiles/oss.dir
 build CMakeFiles/oss.dir/main.cpp.o: CXX_COMPILER__oss_unscanned_Debug /Users/jungwookmum/CLionProjects/oss/main.cpp || cmake_object_order_depends_target_oss
   DEP_FILE = CMakeFiles/oss.dir/main.cpp.o.d
   FLAGS = -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -mmacosx-version-min=13.2 -fcolor-diagnostics
+  INCLUDES = -I/Users/jungwookmum/CLionProjects/oss/header
   OBJECT_DIR = CMakeFiles/oss.dir
   OBJECT_FILE_DIR = CMakeFiles/oss.dir
+
+build CMakeFiles/oss.dir/source/avl_tree_adaptee.cc.o: CXX_COMPILER__oss_unscanned_Debug /Users/jungwookmum/CLionProjects/oss/source/avl_tree_adaptee.cc || cmake_object_order_depends_target_oss
+  DEP_FILE = CMakeFiles/oss.dir/source/avl_tree_adaptee.cc.o.d
+  FLAGS = -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -mmacosx-version-min=13.2 -fcolor-diagnostics
+  INCLUDES = -I/Users/jungwookmum/CLionProjects/oss/header
+  OBJECT_DIR = CMakeFiles/oss.dir
+  OBJECT_FILE_DIR = CMakeFiles/oss.dir/source
+
+build CMakeFiles/oss.dir/source/avl_tree_adapter.cc.o: CXX_COMPILER__oss_unscanned_Debug /Users/jungwookmum/CLionProjects/oss/source/avl_tree_adapter.cc || cmake_object_order_depends_target_oss
+  DEP_FILE = CMakeFiles/oss.dir/source/avl_tree_adapter.cc.o.d
+  FLAGS = -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -mmacosx-version-min=13.2 -fcolor-diagnostics
+  INCLUDES = -I/Users/jungwookmum/CLionProjects/oss/header
+  OBJECT_DIR = CMakeFiles/oss.dir
+  OBJECT_FILE_DIR = CMakeFiles/oss.dir/source
 
 
 # =============================================================================
@@ -63,7 +78,7 @@ build CMakeFiles/oss.dir/main.cpp.o: CXX_COMPILER__oss_unscanned_Debug /Users/ju
 #############################################
 # Link the executable oss
 
-build oss: CXX_EXECUTABLE_LINKER__oss_Debug CMakeFiles/oss.dir/main.cpp.o
+build oss: CXX_EXECUTABLE_LINKER__oss_Debug CMakeFiles/oss.dir/main.cpp.o CMakeFiles/oss.dir/source/avl_tree_adaptee.cc.o CMakeFiles/oss.dir/source/avl_tree_adapter.cc.o
   FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -mmacosx-version-min=13.2
   OBJECT_DIR = CMakeFiles/oss.dir
   POST_BUILD = :

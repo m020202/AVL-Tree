@@ -1,7 +1,7 @@
 #include <iostream>
-#include "header/AVLTreeAdaptee.h"
-#include "header/AVLTree.h"
-#include "header/AVLTreeAdapter.h"
+#include "header/avl_tree_adaptee.h"
+#include "header/avl_tree.h"
+#include "header/avl_tree_adapter.h"
 using namespace std;
 
 int main() {
@@ -20,10 +20,10 @@ int main() {
     cout << "Insert(5): ";
     tree->Insert(5);
 
-    // 현재 트리 출력
-    cout << "=========현재 트리=========" << endl;
-    tree->PrintTree();
-    cout << "=========================" << endl;
+//    // 현재 트리 출력
+//    cout << "=========현재 트리=========" << endl;
+//    tree->PrintTree();
+//    cout << "=========================" << endl;
 
     // Size
     cout << "Size of tree: ";
@@ -59,10 +59,10 @@ int main() {
 
     cout << "Size after removing 20: ";
     tree->Size();
-
-    cout << "=========현재 트리=========" << endl;
-    tree->PrintTree();
-    cout << "=========================" << endl;
+//
+//    cout << "=========현재 트리=========" << endl;
+//    tree->PrintTree();
+//    cout << "=========================" << endl;
 
     return 0;
 }
