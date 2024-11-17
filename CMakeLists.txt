@@ -4,4 +4,4 @@ project(oss)
 set(CMAKE_CXX_STANDARD 17)
 
 add_executable(oss main.cpp
-        AVLTree.h)
+        header/AVLTree.h)

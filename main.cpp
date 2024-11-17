@@ -1,7 +1,7 @@
 #include <iostream>
-#include "AVLTreeAdaptee.h"
-#include "AVLTree.h"
-#include "AVLTreeAdapter.h"
+#include "header/AVLTreeAdaptee.h"
+#include "header/AVLTree.h"
+#include "header/AVLTreeAdapter.h"
 using namespace std;
 
 int main() {
