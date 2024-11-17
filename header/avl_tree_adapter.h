@@ -27,7 +27,7 @@ public:
     void Erase(int x) override;
 
 private:
-    AVLTreeAdaptee adaptee_;  // 내부적으로 사용할 avl_tree_adaptee 객체
+    AVLTreeAdaptee adaptee_;  // 내부적으로 사용할 AVLTreeAdaptee 객체
 };
 
 #endif  // OSAP_HEADER_AVLTREE_ADAPTER_H_
