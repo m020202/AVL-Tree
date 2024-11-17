@@ -19,9 +19,9 @@ struct node {
     }
 };
 
-class AVLTree {
+class AVLTreeAdaptee {
 public:
-    AVLTree() {
+    AVLTreeAdaptee() {
         root = NULL;
     }
 
@@ -348,11 +348,6 @@ public:
 
         // 루트 노드부터 시작
         printTreeHelper(root, 0);
-    }
-
-    int tmp(int key) {
-        node *n = Search(root, key);
-        return GetSubTreeSize(n);
     }
 
 private:
