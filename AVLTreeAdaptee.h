@@ -1,3 +1,5 @@
+#pragma once
+
 #include <iostream>
 #include <memory>
 #include <cmath>
@@ -354,3 +356,4 @@ private:
     node* root;
     int size = 0;
 };
+
