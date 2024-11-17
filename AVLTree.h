@@ -1,4 +1,5 @@
-#pragma once
+#ifndef OSAP_HEADER_AVLTREE_H_
+#define OSAP_HEADER_AVLTREE_H_
 
 class AVLTree {
 public:
@@ -13,3 +14,5 @@ public:
     virtual void Erase(int x) = 0;
     virtual void PrintTree() = 0;
 };
+
+#endif

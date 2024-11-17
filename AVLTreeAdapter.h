@@ -1,4 +1,5 @@
-#pragma once
+#ifndef OSAP_HEADER_AVLTREE_ADAPTER_H_
+#define OSAP_HEADER_AVLTREE_ADAPTER_H_
 
 #include <iostream>
 #include <memory>
@@ -50,3 +51,4 @@ private:
     AVLTreeAdaptee adaptee_;
 };
 
+#endif

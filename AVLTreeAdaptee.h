@@ -1,4 +1,5 @@
-#pragma once
+#ifndef OSAP_HEADER_AVLTREE_ADAPTEE_H_
+#define OSAP_HEADER_AVLTREE_ADAPTEE_H_
 
 #include <iostream>
 #include <memory>
@@ -357,3 +358,4 @@ private:
     int size = 0;
 };
 
+#endif
