@@ -1,4 +1,4 @@
-#include "../header/avl_tree_adaptee.h"
+#include "../header/avl_tree.h"
 
 node::node(int key) {
     this->key = key;
@@ -6,12 +6,12 @@ node::node(int key) {
     height = size = 1;
 }
 
-AVLTreeAdaptee::AVLTreeAdaptee() {
+AVLTree::AVLTree() {
     root = nullptr;
     size = 0;
 }
 
-int AVLTreeAdaptee::GetDepth(node* n) {
+int AVLTree::GetDepth(node* n) {
     int depth = 0;
     while (n->parent != nullptr) {
         n = n->parent;
@@ -20,19 +20,19 @@ int AVLTreeAdaptee::GetDepth(node* n) {
     return depth;
 }
 
-int AVLTreeAdaptee::GetHeightByNode(node* n) {
+int AVLTree::GetHeightByNode(node* n) {
     return n ? n->height : 0;
 }
 
-int AVLTreeAdaptee::GetSubTreeSize(node* n) {
+int AVLTree::GetSubTreeSize(node* n) {
     return n ? n->size : 0;
 }
 
-void AVLTreeAdaptee::UpdateSubTreeSize(node* n) {
+void AVLTree::UpdateSubTreeSize(node* n) {
     n->size = 1 + GetSubTreeSize(n->left) + GetSubTreeSize(n->right);
 }
 
-int AVLTreeAdaptee::Finding(int key) {
+int AVLTree::Finding(int key) {
     node* find_node = Search(root, key);
     if (find_node == nullptr) return 0;
 
@@ -42,7 +42,7 @@ int AVLTreeAdaptee::Finding(int key) {
     return depth + height;
 }
 
-node* AVLTreeAdaptee::Search(node* cur_node, int key) {
+node* AVLTree::Search(node* cur_node, int key) {
     if (cur_node == nullptr) return nullptr;
 
     if (cur_node->key == key)
@@ -54,17 +54,17 @@ node* AVLTreeAdaptee::Search(node* cur_node, int key) {
     }
 }
 
-void AVLTreeAdaptee::UpdateHeight(node* n) {
+void AVLTree::UpdateHeight(node* n) {
     if (n) {
         n->height = 1 + max(GetHeightByNode(n->left), GetHeightByNode(n->right));
     }
 }
 
-int AVLTreeAdaptee::GetBalance(node* n) {
+int AVLTree::GetBalance(node* n) {
     return n ? GetHeightByNode(n->left) - GetHeightByNode(n->right) : 0;
 }
 
-node* AVLTreeAdaptee::RotateRight(node* y) {
+node* AVLTree::RotateRight(node* y) {
     node* x = y->left;
     node* T2 = x->right;
 
@@ -83,7 +83,7 @@ node* AVLTreeAdaptee::RotateRight(node* y) {
     return x;
 }
 
-node* AVLTreeAdaptee::RotateLeft(node* x) {
+node* AVLTree::RotateLeft(node* x) {
     node* y = x->right;
     node* T2 = y->left;
 
@@ -102,7 +102,7 @@ node* AVLTreeAdaptee::RotateLeft(node* x) {
     return y;
 }
 
-node* AVLTreeAdaptee::Balance(node* n) {
+node* AVLTree::Balance(node* n) {
     UpdateHeight(n);
     UpdateSubTreeSize(n);
     int balance_factor = GetBalance(n);
@@ -127,7 +127,7 @@ node* AVLTreeAdaptee::Balance(node* n) {
     return n;
 }
 
-int AVLTreeAdaptee::Inserting(int x) {
+int AVLTree::Inserting(int x) {
     node* new_node = new node(x);
     size++;
     if (root == nullptr) {
@@ -167,19 +167,19 @@ int AVLTreeAdaptee::Inserting(int x) {
     return Finding(x);
 }
 
-int AVLTreeAdaptee::IsEmpty() {
+int AVLTree::IsEmpty() {
     return root ? 0 : 1;
 }
 
-int AVLTreeAdaptee::GetSize() {
+int AVLTree::GetSize() {
     return size;
 }
 
-int AVLTreeAdaptee::GetHeight() {
+int AVLTree::GetHeight() {
     return root ? root->height - 1 : -1;
 }
 
-void AVLTreeAdaptee::GetAncestor(int x) {
+void AVLTree::GetAncestor(int x) {
     int depth_height_sum = Finding(x);
 
     int key_sum = 0;
@@ -192,7 +192,7 @@ void AVLTreeAdaptee::GetAncestor(int x) {
     cout << depth_height_sum << " " << key_sum << endl;
 }
 
-void AVLTreeAdaptee::GetAverage(int x) {
+void AVLTree::GetAverage(int x) {
     node* cur_node = Search(root, x);
     node* tmp = cur_node;
     while (tmp->left != nullptr) {
@@ -209,7 +209,7 @@ void AVLTreeAdaptee::GetAverage(int x) {
     cout << (min_val + max_val) / 2.0 << endl;
 }
 
-void AVLTreeAdaptee::GetRank(int x) {
+void AVLTree::GetRank(int x) {
     node* cur_node = Search(root, x);
     if (cur_node == nullptr) {
         cout << 0 << endl;
@@ -231,7 +231,7 @@ void AVLTreeAdaptee::GetRank(int x) {
     cout << depth_height_sum << " " << rank << endl;
 }
 
-void AVLTreeAdaptee::Erasing(int key) {
+void AVLTree::Erasing(int key) {
     node* del_node = Search(root, key);
     if (del_node == nullptr) {
         cout << 0 << endl;

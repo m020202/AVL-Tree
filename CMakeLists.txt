@@ -9,8 +9,8 @@ include_directories(${CMAKE_SOURCE_DIR}/header)
 # 소스 파일 목록 지정
 set(SOURCES
         main.cpp
-        source/avl_tree_adaptee.cc
-        source/avl_tree_adapter.cc # 소스 폴더에 있는 소스 파일
+        source/avl_tree.cc
+        source/set_adapter.cc # 소스 폴더에 있는 소스 파일
 )
 
 # 실행 파일 생성

@@ -1,24 +1,24 @@
 #include <iostream>
-#include "header/avl_tree_adaptee.h"
 #include "header/avl_tree.h"
-#include "header/avl_tree_adapter.h"
+#include "header/set.h"
+#include "header/set_adapter.h"
 using namespace std;
 
 int main() {
-    AVLTreeAdaptee adaptee;
-    AVLTree* tree = new AVLTreeAdapter(adaptee);
+    AVLTree adaptee;
+    Set* set = new SetAdapter(adaptee);
 
     // Insert test cases
     cout << "Insert(10): ";
-    tree->Insert(10);
+    set->Insert(10);
     cout << "Insert(20): ";
-    tree->Insert(20);
+    set->Insert(20);
     cout << "Insert(30): ";
-    tree->Insert(30);
+    set->Insert(30);
     cout << "Insert(15): ";
-    tree->Insert(15);
+    set->Insert(15);
     cout << "Insert(5): ";
-    tree->Insert(5);
+    set->Insert(5);
 
 //    // 현재 트리 출력
 //    cout << "=========현재 트리=========" << endl;
@@ -27,38 +27,38 @@ int main() {
 
     // Size
     cout << "Size of tree: ";
-    tree->Size();
+    set->Size();
 
     // Find depth + height of a node
     cout << "Find 20: ";
-    tree->Find(20);
+    set->Find(20);
 
     // Ancestor
     cout << "Ancestor(15): ";
-    tree->Ancestor(15);
+    set->Ancestor(15);
 
     // Average test case (min + max value in subtree)
     cout << "Average(10): ";
-    tree->Average(10);
+    set->Average(10);
 
     // Tree height
     cout << "Tree Height: ";
-    tree->Height();
+    set->Height();
 
     // Check if tree is empty
     cout << "Is tree empty? ";
-    tree->Empty();
+    set->Empty();
 
     // Rank
     cout << "Rank(30): ";
-    tree->Rank(30);
+    set->Rank(30);
 
     // Remove a node
     cout << "Erase 20: ";
-    tree->Erase(20);
+    set->Erase(20);
 
     cout << "Size after removing 20: ";
-    tree->Size();
+    set->Size();
 //
 //    cout << "=========현재 트리=========" << endl;
 //    tree->PrintTree();

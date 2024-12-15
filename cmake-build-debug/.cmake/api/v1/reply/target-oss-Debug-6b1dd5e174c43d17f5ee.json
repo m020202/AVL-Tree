@@ -115,13 +115,13 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "source/avl_tree_adaptee.cc",
+			"path" : "source/avl_tree.cc",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "source/avl_tree_adapter.cc",
+			"path" : "source/set_adapter.cc",
 			"sourceGroupIndex" : 0
 		}
 	],

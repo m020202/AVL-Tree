@@ -6,14 +6,14 @@
 #include <cmath>
 #include <queue>
 #include <iomanip>
+#include "set.h"
 #include "avl_tree.h"
-#include "avl_tree_adaptee.h"
 using namespace std;
 
-class AVLTreeAdapter : public AVLTree {
+class SetAdapter : public Set {
 public:
     // 생성자
-    AVLTreeAdapter(AVLTreeAdaptee adaptee);
+    SetAdapter(AVLTree avlTree);
 
     // 멤버 함수들
     void Find(int x) override;
@@ -27,7 +27,7 @@ public:
     void Erase(int x) override;
 
 private:
-    AVLTreeAdaptee adaptee_;  // 내부적으로 사용할 AVLTreeAdaptee 객체
+    AVLTree avlTree_;  // 내부적으로 사용할 AVLTreeAdaptee 객체
 };
 
 #endif  // OSAP_HEADER_AVLTREE_ADAPTER_H_
