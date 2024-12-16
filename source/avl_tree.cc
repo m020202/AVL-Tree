@@ -107,8 +107,9 @@ node* AVLTree::Balance(node* n) {
     UpdateSubTreeSize(n);
     int balance_factor = GetBalance(n);
 
-    if (balance_factor > 1 && GetBalance(n->left) >= 0)
+    if (balance_factor > 1 && GetBalance(n->left) >= 0) {
         return RotateRight(n);
+    }
 
     if (balance_factor > 1 && GetBalance(n->left) < 0) {
         n->left = RotateLeft(n->left);
