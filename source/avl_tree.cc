@@ -7,8 +7,8 @@ node::node(int key) {
 }
 
 AVLTree::AVLTree() {
-    root = nullptr;
-    size = 0;
+    root_ = nullptr;
+    size_ = 0;
 }
 
 int AVLTree::GetDepth(node* n) {
@@ -33,7 +33,7 @@ void AVLTree::UpdateSubTreeSize(node* n) {
 }
 
 int AVLTree::Finding(int key) {
-    node* find_node = Search(root, key);
+    node* find_node = Search(root_, key);
     if (find_node == nullptr) return 0;
 
     int depth = GetDepth(find_node);
@@ -129,13 +129,13 @@ node* AVLTree::Balance(node* n) {
 
 int AVLTree::Inserting(int x) {
     node* new_node = new node(x);
-    size++;
-    if (root == nullptr) {
-        root = new_node;
+    size_++;
+    if (root_ == nullptr) {
+        root_ = new_node;
         return 0;
     }
 
-    node* cur_node = root;
+    node* cur_node = root_;
     node* par_node = nullptr;
 
     while (cur_node != nullptr) {
@@ -160,30 +160,30 @@ int AVLTree::Inserting(int x) {
         tmp = tmp->parent;
     }
 
-    while (root->parent != nullptr) {
-        root = root->parent;
+    while (root_->parent != nullptr) {
+        root_ = root_->parent;
     }
 
     return Finding(x);
 }
 
 int AVLTree::IsEmpty() {
-    return root ? 0 : 1;
+    return root_ ? 0 : 1;
 }
 
 int AVLTree::GetSize() {
-    return size;
+    return size_;
 }
 
 int AVLTree::GetHeight() {
-    return root ? root->height - 1 : -1;
+    return root_ ? root_->height - 1 : -1;
 }
 
 void AVLTree::GetAncestor(int x) {
     int depth_height_sum = Finding(x);
 
     int key_sum = 0;
-    node* cur_node = Search(root, x)->parent;
+    node* cur_node = Search(root_, x)->parent;
     while (cur_node != nullptr) {
         key_sum += cur_node->key;
         cur_node = cur_node->parent;
@@ -193,7 +193,7 @@ void AVLTree::GetAncestor(int x) {
 }
 
 void AVLTree::GetAverage(int x) {
-    node* cur_node = Search(root, x);
+    node* cur_node = Search(root_, x);
     node* tmp = cur_node;
     while (tmp->left != nullptr) {
         tmp = tmp->left;
@@ -210,7 +210,7 @@ void AVLTree::GetAverage(int x) {
 }
 
 void AVLTree::GetRank(int x) {
-    node* cur_node = Search(root, x);
+    node* cur_node = Search(root_, x);
     if (cur_node == nullptr) {
         cout << 0 << endl;
         return;
@@ -232,12 +232,12 @@ void AVLTree::GetRank(int x) {
 }
 
 void AVLTree::Erasing(int key) {
-    node* del_node = Search(root, key);
+    node* del_node = Search(root_, key);
     if (del_node == nullptr) {
         cout << 0 << endl;
         return;
     }
-    size--;
+    size_--;
     cout << Finding(key) << endl;
 
     node* par_node = del_node->parent;
@@ -261,8 +261,8 @@ void AVLTree::Erasing(int key) {
     }
 
     if (par_node == nullptr) {
-        root = child_node;
-        if (root != nullptr) root->parent = nullptr;
+        root_ = child_node;
+        if (root_ != nullptr) root_->parent = nullptr;
     } else if (del_node == par_node->left) {
         par_node->left = child_node;
         if (child_node != nullptr) child_node->parent = par_node;
@@ -282,7 +282,7 @@ void AVLTree::Erasing(int key) {
     }
 
     // 루트 갱신
-    while (root->parent != NULL) {
-        root = root->parent;
+    while (root_->parent != NULL) {
+        root_ = root_->parent;
     }
 }

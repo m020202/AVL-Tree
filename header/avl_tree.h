@@ -22,29 +22,29 @@ class AVLTree {
 public:
     AVLTree();
 
-    int GetDepth(node* n);
-    int GetHeightByNode(node* n);
+    int GetDepth(node* n); //
+    int GetHeightByNode(node* n); //
     int GetSubTreeSize(node* n);
     void UpdateSubTreeSize(node* n);
-    int Finding(int key);
-    node* Search(node* cur_node, int key);
+    int Finding(int key); //
+    node* Search(node* cur_node, int key); //
     void UpdateHeight(node* n);
     int GetBalance(node* n);
     node* RotateRight(node* y);
     node* RotateLeft(node* x);
     node* Balance(node* n);
     int Inserting(int x);
-    int IsEmpty();
-    int GetSize();
-    int GetHeight();
+    int IsEmpty(); //
+    int GetSize(); //
+    int GetHeight(); //
     void GetAncestor(int x);
     void GetAverage(int x);
     void GetRank(int x);
     void Erasing(int key);
 
 private:
-    node* root;
-    int size;
+    node* root_;
+    int size_;
 };
 
 #endif
