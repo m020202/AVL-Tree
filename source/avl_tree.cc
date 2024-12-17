@@ -75,6 +75,14 @@ node* AVLTree::RotateRight(node* y) {
     x->parent = y->parent;
     y->parent = x;
 
+    if (x->parent) {
+        if (x->parent->left == y) {
+            x->parent->left = x;
+        } else {
+            x->parent->right = x;
+        }
+    }
+
     UpdateHeight(y);
     UpdateHeight(x);
     UpdateSubTreeSize(y);
@@ -93,6 +101,14 @@ node* AVLTree::RotateLeft(node* x) {
     if (T2) T2->parent = x;
     y->parent = x->parent;
     x->parent = y;
+
+    if (y->parent) {  // x의 부모가 존재하는 경우
+        if (y->parent->left == x) {  // y가 부모의 왼쪽 자식인 경우
+            y->parent->left = y;     // 부모의 왼쪽 자식을 x로 갱신
+        } else {                     // y가 부모의 오른쪽 자식인 경우
+            y->parent->right = y;    // 부모의 오른쪽 자식을 x로 갱신
+        }
+    }
 
     UpdateHeight(x);
     UpdateHeight(y);
