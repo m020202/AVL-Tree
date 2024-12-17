@@ -1,7 +1,7 @@
 #include <iostream>
-#include "avl_tree.h"
 #include "set.h"
 #include "set_adapter.h"
+#include "avl_tree.h"
 using namespace std;
 
 int main() {

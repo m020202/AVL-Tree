@@ -303,4 +303,31 @@ void AVLTree::Erasing(int key) {
             root_ = root_->parent;
         }
     }
+
+    void AVLTree::PrintTree() {
+    if (root_ == NULL) {
+        std::cout << "Tree is empty." << std::endl;
+        return;
+    }
+    cout << "=====중간 점검=====" << endl;
+    // printTreeHelper를 PrintTree의 내부 함수로 구현
+    function<void(node*, int)>printTreeHelper = [&] (node* n, int space) {
+        if (n == NULL) return;
+        // 오른쪽 자식부터 출력 (역순으로 출력하므로 오른쪽부터 출력)
+        space += 10;  // 각 레벨을 띄울 만큼 공백 증가
+        // 오른쪽 자식 출력
+        printTreeHelper(n->right, space);
+        // 현재 노드 출력 (높이와 공백에 맞게 출력)
+        std::cout << std::endl;
+        for (int i = 10; i < space; i++) {
+            std::cout << " ";
+        }
+        std::cout << n->key << std::endl;
+        // 왼쪽 자식 출력
+        printTreeHelper(n->left, space);
+    };
+    // 루트 노드부터 시작
+    printTreeHelper(root_, 0);
+    cout << "=================" << endl;
+}
 }

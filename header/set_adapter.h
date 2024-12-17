@@ -26,6 +26,8 @@ public:
     void Rank(int x) override;
     void Erase(int x) override;
 
+    void PrintTree() override;
+
 private:
     AVLTree avlTree_;  // 내부적으로 사용할 AVLTreeAdaptee 객체
 };

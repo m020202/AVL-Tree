@@ -1,11 +1,12 @@
 # ninja log v5
-4	723	1731822336339817975	CMakeFiles/oss.dir/source/AVLTreeAdaptee.cc.o	35152a97fb9d5b45
-0	87	1734272850586259885	build.ninja	7fdc7f505de9659e
-2	545	1731844887355474956	CMakeFiles/oss.dir/main.cpp.o	235376a060d3074f
-4	544	1731844887353735118	CMakeFiles/oss.dir/source/avl_tree_adapter.cc.o	8ead83f806f56773
+11	724	1734433246373534244	CMakeFiles/oss.dir/source/avl_tree.cc.o	214b383ffe68c6bb
 4	644	1731831289138186329	CMakeFiles/oss.dir/source/avl_tree_adaptee.cc.o	5b4d7c548917a798
-545	586	1731844887399301618	oss	12432752cf97ca29
-5	409	1734272864558929883	CMakeFiles/oss.dir/source/set_adapter.cc.o	4a4695f2ff044087
-4	412	1734272864561680199	CMakeFiles/oss.dir/main.cpp.o	235376a060d3074f
-4	414	1734272864564642178	CMakeFiles/oss.dir/source/avl_tree.cc.o	214b383ffe68c6bb
-414	515	1734272864667162043	oss	c89c1b62f2c4aed6
+4	544	1731844887353735118	CMakeFiles/oss.dir/source/avl_tree_adapter.cc.o	8ead83f806f56773
+2	393	1734442364658744726	CMakeFiles/oss.dir/main.cpp.o	235376a060d3074f
+11	724	1734433246370433677	CMakeFiles/oss.dir/source/set_adapter.cc.o	4a4695f2ff044087
+314	344	1734440237175654190	oss	f559e858b812bb7d
+0	86	1734442382607893785	build.ninja	7fdc7f505de9659e
+4	723	1731822336339817975	CMakeFiles/oss.dir/source/AVLTreeAdaptee.cc.o	35152a97fb9d5b45
+3	357	1734442385060513928	CMakeFiles/oss.dir/source/set_adapter.cc.o	4a4695f2ff044087
+3	359	1734442385062230589	CMakeFiles/oss.dir/source/avl_tree.cc.o	214b383ffe68c6bb
+359	393	1734442385098767717	oss	c89c1b62f2c4aed6

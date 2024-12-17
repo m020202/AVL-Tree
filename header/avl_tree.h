@@ -42,6 +42,8 @@ public:
     void GetRank(int x);
     void Erasing(int key);
 
+    void PrintTree();
+
 private:
     node* root_;
     int size_;
