@@ -37,7 +37,7 @@ int AVLTree::Finding(int key) {
     if (find_node == nullptr) return 0;
 
     int depth = GetDepth(find_node);
-    int height = GetHeightByNode(find_node) - 1;
+    int height = GetHeightByNode(find_node);
 
     return depth + height;
 }
@@ -133,7 +133,7 @@ int AVLTree::Inserting(int x) {
     size_++;
     if (root_ == nullptr) {
         root_ = new_node;
-        return 0;
+        return Finding(x);
     }
 
     node* cur_node = root_;
@@ -164,7 +164,6 @@ int AVLTree::Inserting(int x) {
     while (root_->parent != nullptr) {
         root_ = root_->parent;
     }
-
     return Finding(x);
 }
 
@@ -177,7 +176,7 @@ int AVLTree::GetSize() {
 }
 
 int AVLTree::GetHeight() {
-    return root_ ? root_->height - 1 : -1;
+    return root_ ? root_->height : -1;
 }
 
 void AVLTree::GetAncestor(int x) {
@@ -190,7 +189,7 @@ void AVLTree::GetAncestor(int x) {
         cur_node = cur_node->parent;
     }
 
-    cout << depth_height_sum << " " << key_sum << endl;
+    cout << depth_height_sum << " " << key_sum << "\n";
 }
 
 void AVLTree::GetAverage(int x) {
@@ -207,13 +206,13 @@ void AVLTree::GetAverage(int x) {
     }
     int max_val = tmp->key;
 
-    cout << (min_val + max_val) / 2.0 << endl;
+    cout << (min_val + max_val) / 2 << "\n";
 }
 
 void AVLTree::GetRank(int x) {
     node* cur_node = Search(root_, x);
     if (cur_node == nullptr) {
-        cout << 0 << endl;
+        cout << 0 << "\n";
         return;
     }
 
@@ -229,17 +228,17 @@ void AVLTree::GetRank(int x) {
         cur_node = cur_node->parent;
     }
 
-    cout << depth_height_sum << " " << rank << endl;
+    cout << depth_height_sum << " " << rank << "\n";
 }
 
 void AVLTree::Erasing(int key) {
     node* del_node = Search(root_, key);
     if (del_node == nullptr) {
-        cout << 0 << endl;
+        cout << 0 << "\n";
         return;
     }
     size_--;
-    cout << Finding(key) << endl;
+    cout << Finding(key) << "\n";
 
     node* par_node = del_node->parent;
     node* child_node;
@@ -283,7 +282,9 @@ void AVLTree::Erasing(int key) {
     }
 
     // 루트 갱신
-    while (root_->parent != NULL) {
-        root_ = root_->parent;
+    if (root_ != NULL) {
+        while (root_->parent != NULL) {
+            root_ = root_->parent;
+        }
     }
 }
