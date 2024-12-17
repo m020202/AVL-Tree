@@ -1,68 +1,59 @@
 #include <iostream>
-#include "header/avl_tree.h"
-#include "header/set.h"
-#include "header/set_adapter.h"
+#include "avl_tree.h"
+#include "set.h"
+#include "set_adapter.h"
 using namespace std;
 
 int main() {
-    AVLTree adaptee;
-    Set* set = new SetAdapter(adaptee);
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
 
-    // Insert test cases
-    cout << "Insert(10): ";
-    set->Insert(10);
-    cout << "Insert(20): ";
-    set->Insert(20);
-    cout << "Insert(30): ";
-    set->Insert(30);
-    cout << "Insert(15): ";
-    set->Insert(15);
-    cout << "Insert(5): ";
-    set->Insert(5);
+    int t,q, num;
+    cin >> t;
+    while(t--) {
+        AVLTree avlTree;
+        Set* set = new SetAdapter(avlTree);
 
-//    // 현재 트리 출력
-//    cout << "=========현재 트리=========" << endl;
-//    tree->PrintTree();
-//    cout << "=========================" << endl;
+        cin >> q;
+        for (int i = 0; i < q; ++i) {
+            string input;
+            cin >> input;
 
-    // Size
-    cout << "Size of tree: ";
-    set->Size();
-
-    // Find depth + height of a node
-    cout << "Find 20: ";
-    set->Find(20);
-
-    // Ancestor
-    cout << "Ancestor(15): ";
-    set->Ancestor(15);
-
-    // Average test case (min + max value in subtree)
-    cout << "Average(10): ";
-    set->Average(10);
-
-    // Tree height
-    cout << "Tree Height: ";
-    set->Height();
-
-    // Check if tree is empty
-    cout << "Is tree empty? ";
-    set->Empty();
-
-    // Rank
-    cout << "Rank(30): ";
-    set->Rank(30);
-
-    // Remove a node
-    cout << "Erase 20: ";
-    set->Erase(20);
-
-    cout << "Size after removing 20: ";
-    set->Size();
-//
-//    cout << "=========현재 트리=========" << endl;
-//    tree->PrintTree();
-//    cout << "=========================" << endl;
-
+            if (input == "Find") {
+                cin >> num;
+                set->Find(num);
+            }
+            else if (input == "Insert") {
+                cin >> num;
+                set->Insert(num);
+              //  set->PrintTree();
+            }
+            else if (input == "Empty") {
+                set->Empty();
+            }
+            else if (input == "Size") {
+                set->Size();
+            }
+            else if (input == "Height") {
+                set->Height();
+            }
+            else if (input == "Ancestor") {
+                cin >> num;
+                set->Ancestor(num);
+            }
+            else if (input == "Average") {
+                cin >> num;
+                set->Average(num);
+            }
+            else if (input == "Rank") {
+                cin >> num;
+                set->Rank(num);
+            }
+            else if (input == "Erase") {
+                cin >> num;
+                set->Erase(num);
+            }
+        }
+    }
     return 0;
 }
