@@ -248,7 +248,7 @@ void AVLTree::GetRank(int x) {
 }
 
 void AVLTree::Erasing(int key) {
-    node* del_node = Search(root_, key);
+    node *del_node = Search(root_, key);
     if (del_node == nullptr) {
         cout << 0 << "\n";
         return;
@@ -256,8 +256,8 @@ void AVLTree::Erasing(int key) {
     size_--;
     cout << Finding(key) << "\n";
 
-    node* par_node = del_node->parent;
-    node* child_node;
+    node *par_node = del_node->parent;
+    node *child_node;
 
     if (del_node->left == nullptr && del_node->right == nullptr) {
         child_node = nullptr;
@@ -290,7 +290,7 @@ void AVLTree::Erasing(int key) {
     delete del_node;
 
     // 삭제 후 균형 재조정
-    node* cur = par_node;
+    node *cur = par_node;
     while (cur != nullptr) {
         UpdateHeight(cur);
         cur = Balance(cur);
@@ -303,8 +303,8 @@ void AVLTree::Erasing(int key) {
             root_ = root_->parent;
         }
     }
-
-    void AVLTree::PrintTree() {
+}
+void AVLTree::PrintTree() {
     if (root_ == NULL) {
         std::cout << "Tree is empty." << std::endl;
         return;
@@ -329,5 +329,4 @@ void AVLTree::Erasing(int key) {
     // 루트 노드부터 시작
     printTreeHelper(root_, 0);
     cout << "=================" << endl;
-}
 }

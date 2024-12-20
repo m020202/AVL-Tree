@@ -25,7 +25,6 @@ public:
     void Average(int x) override;
     void Rank(int x) override;
     void Erase(int x) override;
-
     void PrintTree() override;
 
 private:

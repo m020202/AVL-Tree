@@ -26,7 +26,7 @@ int main() {
             else if (input == "Insert") {
                 cin >> num;
                 set->Insert(num);
-              //  set->PrintTree();
+                set->PrintTree();
             }
             else if (input == "Empty") {
                 set->Empty();

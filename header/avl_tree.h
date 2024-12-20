@@ -41,7 +41,6 @@ public:
     void GetAverage(int x);
     void GetRank(int x);
     void Erasing(int key);
-
     void PrintTree();
 
 private:
